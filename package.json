@@ -1,0 +1,16 @@
+{
+  "name": "memedownload",
+  "version": "1.0.0",
+  "description": "A magical meme download-er",
+  "main": "index.js",
+  "scripts": {
+    "mdl": "node ./mdl.js",
+    "mml": "node ./mml.js"
+  },
+  "author": "ItsErikSquared",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  }
+}

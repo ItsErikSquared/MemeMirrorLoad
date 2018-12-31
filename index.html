@@ -1,0 +1,153 @@
+<html lang="en" class="gr__memeload_us">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>API Documentation - Memeload</title>
+    <meta property="og:title" content="API Documentation">
+    <meta property="og:site_name" content="Memeload">
+    <meta property="og:url" content="https://memeload.itserikmc.com">
+    <meta property="og:description" content="The way to get tons of memes, straight from a single API.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="undefined">
+    <meta property="twitter:image" content="undefined">
+    <meta property="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+        body {
+            min-height: 100vh;
+          }
+          main {
+            padding-top: 60px;
+          }
+          code {
+            font-size: 80%;
+          }
+            </style>
+</head>
+
+<body class="d-flex flex-column" data-gr-c-s-loaded="true">
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="/">MemeMirrorLoad</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=2HY8T3DVQYKK4&amp;source=url">Donate</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="flex-fill">
+        <div class="container text-center">
+            <h1 class="mt-5">MemeMirrorLoad</h1>
+            <p class="lead">The way to get tons of memes, straight from a single API.</p>
+            <hr>
+            <p>Want to get started? Read the documentation below.<br>You can also hit the donate button in the menu
+                above to help keep this service alive.</p>
+            <br>
+        </div>
+        <div class="container">
+            <h3 class="mt-5">Documentation</h3>
+            <p>Endpoint URL: <code>https://memeload.itserikmc.com</code></p>
+            <hr>
+            <h5 class="mt-2">Get a Meme</h5>
+            <p>
+                Request: <code>GET /v1/get/XX</code><br>
+                Notes: Replace XX with the ID of the meme you would like to fetch. Responds with the <code>application/json</code>
+                content type.<br>
+                Example Response:<br>
+            </p>
+            <div class="card card-body bg-light">
+                <pre>{
+      "data": {
+        "id": 48428,
+        "source": "reddit",
+        "permalink": "https:\/\/www.reddit.com\/r\/dankmemes\/comments\/a7oqnx\/send_help\/",
+        "subreddit": "dankmemes",
+        "title": "Send help",
+        "author": "DragonBurst01",
+        "image": "https:\/\/memeload.itserikmc.com\/img\/48428.png"
+      }
+    }</pre>
+            </div>
+            <p></p>
+            <hr>
+            <h5 class="mt-2">Get the Newest Meme</h5>
+            <p>
+                Request: <code>GET /v1/new</code><br>
+                Notes: Fetches the newest meme that was added. Responds with the <code>application/json</code> content
+                type.<br>
+                Example Response:<br>
+            </p>
+            <div class="card card-body bg-light">
+                <pre>{
+      "data": {
+        "id": 53410,
+        "source": "reddit",
+        "permalink": "https:\/\/www.reddit.com\/r\/dankmemes\/comments\/a8epg8\/christmas_time\/",
+        "subreddit": "dankmemes",
+        "title": "Christmas time",
+        "author": "nickckelly",
+        "image": "https:\/\/memeload.itserikmc.com\/img\/53410.png"
+      }
+    }</pre>
+            </div>
+            <p></p>
+            <hr>
+            <h5 class="mt-2">Get a Random Meme</h5>
+            <p>
+                Request: <code>GET /v1/random</code><br>
+                Notes: Returns the JSON for a random meme on the server. Responds with the <code>application/json</code>
+                content type.<br>
+                Example Response:<br>
+            </p>
+            <div class="card card-body bg-light">
+                <pre>{
+      "data": {
+        "id": 45458,
+        "source": "reddit",
+        "permalink": "https:\/\/www.reddit.com\/r\/dankmemes\/comments\/a7637y\/i_also_have_the_template_if_anyone_wants_it\/",
+        "subreddit": "dankmemes",
+        "title": "I also have the template if anyone wants it",
+        "author": "Viperzzx",
+        "image": "https:\/\/memeload.itserikmc.com\/img\/45458.png"
+      }
+    }</pre>
+            </div>
+            <p></p>
+            <hr>
+            <h5 class="mt-2">Get the Statistics for the API</h5>
+            <p>
+                Request: <code>GET /v1/stats</code><br>
+                Notes: Returns the total amount of memes archived. Responds with the <code>application/json</code>
+                content type.<br>
+                Example Response:<br>
+            </p>
+            <div class="card card-body bg-light">
+                <pre>{
+      "powered_by": "MemeMirrorLoad",
+      "meme_count": 53241
+    }</pre>
+            </div>
+            <p></p>
+            <br>
+        </div>
+    </main>
+    <footer class="footer mt-3 py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">Created by ItsErikSquared, with help from <a href="https://brightskyz.xyz/">BrightSkyz</a>
+                for the api.</span>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
