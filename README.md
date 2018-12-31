@@ -1,5 +1,5 @@
 # MemeMirrorLoad
-A complete mirror of https://memeload.us
+A complete mirror of https://memeload.us running on https://memeload.itserikmc.com
 
 ## Downloading Memes
 You need to use 'MemeDownLoad' to actually load the memes. This will require ALOT of space, and It will take a LONG time.
