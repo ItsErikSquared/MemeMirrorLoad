@@ -7,7 +7,8 @@
     "mdl": "node ./mdl.js",
     "mml": "node ./mml.js"
   },
-  "author": "ItsErikSquared",
+  "repository": "https://github.com/ItsErikSquared/MemeMirrorLoad",
+  "author": "itseriksquared",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
