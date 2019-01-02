@@ -21,7 +21,7 @@ console.log('MemeMirrorLoad 1.0\n------------------------\nBy ItsErikSquared and
 app.get('/*', (req, res, next) => {
     updateStats()
     next()
-    console.log(`[Connection] ${req.ip} -> ${req.url}`)
+    console.log(`[Connection] ${new Date().toUTCString()} ${req.ip} -> ${req.url}`)
 })
 
 app.get('/', (req, res) => {
