@@ -12,6 +12,7 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
+
 rl.on('SIGINT', () => {
   rl.question('[MDL] Are you sure you want to exit? ', (answer) => {
     if (answer.match(/^y(es)?$/i)) {
@@ -26,7 +27,7 @@ rl.on('SIGINT', () => {
 console.log('MemeDownLoad 1.0\n------------------------\nBy ItsErikSquared and Powered by MemeLoad')
 console.log('\n\nTo kill, just press CTRL+C and type `y(es)`.')
 
-fs.exists("./memes", (exists) => {
+fs.exists('./memes', (exists) => {
   if (!exists) {
     fs.mkdir('./memes')
     console.log('[Files] Folder `./memes` created.')
@@ -34,7 +35,7 @@ fs.exists("./memes", (exists) => {
 })
 
 updateCount()
-var updater = setInterval(updateCount(), 30000)
+var updater = setInterval(updateCount, 30000)
 count = 10
 massDownload()
 
