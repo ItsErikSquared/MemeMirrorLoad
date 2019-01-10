@@ -2,82 +2,73 @@ const request = require('request')
 const fs = require('fs')
 var count = 0
 var lastdl = 0
-var running = true
+var running = false
 
-console.log('MemeDownLoad 1.0\n------------------------\nBy ItsErikSquared and Powered by MemeLoad')
+var api = 'https://api.memeload.us/v1/'
+var cdn = 'https://cdn.memeload.us/'
 
-request("https://api.memeload.us/v1/stats", {
-    json: true
-}, (error, response, body) => {
-    count = body.meme_count
-    console.log(`[MDL] Downloading ${count} memes`)
-
-    fs.exists("./memes", (exists) => {
-        if (!exists)
-            fs.mkdir('./memes')
-    })
-
-    download(1)
-    downloadJson(1)
+const readline = require('readline')
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+rl.on('SIGINT', () => {
+  rl.question('[MDL] Are you sure you want to exit? ', (answer) => {
+    if (answer.match(/^y(es)?$/i)) {
+      console.log('[MDL] One moment while we stop your download...')
+      clearInterval(updater)
+      count = lastdl + 1
+      rl.pause()
+    }
+  })
 })
 
-setInterval(async () => {
-    request("https://api.memeload.us/v1/stats", {
-        json: true
-    }, (error, response, body) => {
-        if (count != body.meme_count && !running) {
-            count = body.meme_count
-            console.log(`[UPDATE] Count Updated to ${count}`)
-            download(lastdl)
-        }
-    })
-}, 30000)
+console.log('MemeDownLoad 1.0\n------------------------\nBy ItsErikSquared and Powered by MemeLoad')
+console.log('\n\nTo kill, just press CTRL+C and type `y(es)`.')
 
-function download(i, loop = true) {
-    verify(i - 1)
+fs.exists("./memes", (exists) => {
+  if (!exists) {
+    fs.mkdir('./memes')
+    console.log('[Files] Folder `./memes` created.')
+  }
+})
+
+updateCount()
+var updater = setInterval(updateCount(), 30000)
+count = 10
+massDownload()
+
+function massDownload () {
+  if (!running) {
     running = true
-    lastdl = i
-    fs.exists(`./memes/${i}.png`, (exists) => {
-        if (!exists) {
-            console.log(`[MDL] Downloading #${i} of ${count} (${((i/count) * 100).toFixed(3)}%)`)
-            request(`https://cdn.memeload.us/img/${i}.png`).pipe(fs.createWriteStream(`./memes/${i}.png`)).on('finish', () => {
-                downloadJson(i, loop)
-            })
-        } else {
-            console.log(`[MDL] Meme #${i} exists, skipping`)
-            downloadJson(i, loop)
-        }
-    })
+    console.log('[MDL] Download Started')
+    for (var i = 1; i < count; i++) {
+      download(`${api}get/${i}`, `${i}.json`)
+      download(`${cdn}img/${i}.png`, `${i}.png`)
+      download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
+    }
+    console.log('[MDL] Download Completed')
+  }
 }
 
-function downloadJson(i, loop = true) {
-    if (i > count) {
-        console.log('[MDL/J] Main Download Completed')
-        running = false
-        return
-    }
-    fs.exists(`./memes/${i}.json`, (exists) => {
-        if (!exists) {
-            console.log(`[MDLJ] Downloading #${i} of ${count} (${((i/count) * 100).toFixed(3)}%)`)
-            request(`https://api.memeload.us/v1/get/${i}`).pipe(fs.createWriteStream(`./memes/${i}.json`)).on('finish', () => {
-                if(loop)
-                download(++i)
-            })
-        } else {
-            console.log(`[MDLJ] Meme #${i} exists, skipping`)
-            if(loop)
-            download(++i)
-        }
-    })
+function updateCount () {
+  request(`${api}stats`, {
+    json: true
+  }, (error, response, body) => {
+    count = body.meme_count
+    console.log(`[Update] Count set to ${count}`)
+  })
 }
 
-function verify(i) {
-    if(i == 0) return
-    console.log(`[MDV] Verifying ${i}`)
-    if (fs.statSync(`./memes/${i}.png`).size == 0) {
-        download(i, false)
+function download (from, to) {
+  fs.exists(`./memes/${to}`, async (exists) => {
+    if (exists) {
+      console.log(`[Files] ${to} already exists, skipping`)
+    } else {
+      await new Promise((resolve) => {
+        request(`${from}`).pipe(fs.createWriteStream(`./memes/${to}`)).on('finish', resolve())
+      })
+      console.log(`[Files] ${from} downloaded to ${to}`)
     }
-    if (fs.statSync(`./memes/${i}.json`).size == 0) {
-        downloadJson(i, false)
-    }
+  })
 }
