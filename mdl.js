@@ -3,6 +3,8 @@ const fs = require('fs')
 var count = 0
 var lastdl = 1
 var running = false
+var avgtimehold = 0
+var downloaded = 0
 
 var api = 'https://api.memeload.us/v1/'
 var cdn = 'https://cdn.memeload.us/'
@@ -40,14 +42,18 @@ updateCount()
 async function massDownload () {
   if (!running) {
     running = true
-    console.log('[MDL] Download Started')
+    console.log('[MDL] Download started')
     for (var i = lastdl; i < count; i++) {
+      var start = Date.now()
       await download(`${api}get/${i}`, `${i}.json`)
       await download(`${cdn}img/${i}.png`, `${i}.png`)
       await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
+      avgtimehold += Date.now() - start
+      downloaded++
+      console.log(`[Time] Est. time to complete: ${((avgtimehold * 1000) / downloaded) * (count - i) / 1200} hours (${((i / count) * 100).toFixed(3)}%)`)
       lastdl = i
     }
-    console.log('[MDL] Download Completed')
+    console.log('[MDL] Download completed')
     running = false
   }
 }
