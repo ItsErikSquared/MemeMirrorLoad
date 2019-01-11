@@ -13,7 +13,7 @@ var count = 0
 function updateStats () {
   fs.readdir('./memes/', (err, files) => {
     if (err) console.error(err)
-    count = Math.floor(files.length / 2) - 1
+    count = Math.floor(files.length / 3) - 1
     console.log(`[MML] Count Updated to ${count}`)
   })
 }
