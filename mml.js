@@ -45,7 +45,7 @@ app.get('/img/:id.png', (req, res) => {
 })
 
 app.get('/img-full/:id.png', (req, res) => {
-  fs.exists(`./memes/${req.params.id}.png`, (exists) => {
+  fs.exists(`./memes/${req.params.id}.full.png`, (exists) => {
     if (exists) {
       res.header('Content-Type: image/png')
       res.end(fs.readFileSync(`./memes/${req.params.id}.full.png`), 'binary')
