@@ -1,7 +1,7 @@
 const request = require('request')
 const fs = require('fs')
 var count = 0
-var lastdl = 0
+var lastdl = 1
 var running = false
 
 var api = 'https://api.memeload.us/v1/'
@@ -34,21 +34,21 @@ fs.exists('./memes', (exists) => {
   }
 })
 
-// updateCount()
-// var updater = setInterval(updateCount, 30000)
-count = 10
-massDownload()
+var updater = setInterval(updateCount, 30000)
+updateCount()
 
 async function massDownload () {
   if (!running) {
     running = true
     console.log('[MDL] Download Started')
-    for (var i = 1; i < count; i++) {
+    for (var i = lastdl; i < count; i++) {
       await download(`${api}get/${i}`, `${i}.json`)
       await download(`${cdn}img/${i}.png`, `${i}.png`)
       await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
+      lastdl = i
     }
     console.log('[MDL] Download Completed')
+    running = false
   }
 }
 
@@ -57,8 +57,9 @@ function download (from, to) {
     fs.exists(`./memes/${to}`, async (exists) => {
       if (exists) {
         console.log(`[Files] ${to} already exists, skipping`)
+        resolve()
       } else {
-        request(`${from}`).pipe(fs.createWriteStream(`./memes/${to}`)).on('finish', resolve())
+        request(`${from}`).pipe(fs.createWriteStream(`./memes/${to}`)).on('finish', resolve)
         console.log(`[Files] ${from} downloaded to ${to}`)
       }
     })
@@ -72,5 +73,6 @@ function updateCount () {
     if (error) console.error(error)
     count = body.meme_count
     console.log(`[Update] Count set to ${count}`)
+    massDownload()
   })
 }
