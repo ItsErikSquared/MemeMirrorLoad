@@ -50,7 +50,7 @@ async function massDownload () {
       await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
       avgtimehold += Date.now() - start
       downloaded++
-      console.log(`[Time] Est. time to complete: ${((avgtimehold / downloaded) / 3600000) * (Math.floor(count - i) / 3)} hours (${((i / count) * 100).toFixed(3)}%)`)
+      console.log(`[Time] Est. time to complete: ${((avgtimehold / downloaded) / 3600000) * (Math.floor((count - i) / 3))} hours (${((i / count) * 100).toFixed(3)}%)`)
       lastdl = i
     }
     console.log('[MDL] Download completed')
