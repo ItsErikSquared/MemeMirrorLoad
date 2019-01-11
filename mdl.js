@@ -34,42 +34,43 @@ fs.exists('./memes', (exists) => {
   }
 })
 
-updateCount()
-var updater = setInterval(updateCount, 30000)
+// updateCount()
+// var updater = setInterval(updateCount, 30000)
 count = 10
 massDownload()
 
-function massDownload () {
+async function massDownload () {
   if (!running) {
     running = true
     console.log('[MDL] Download Started')
     for (var i = 1; i < count; i++) {
-      download(`${api}get/${i}`, `${i}.json`)
-      download(`${cdn}img/${i}.png`, `${i}.png`)
-      download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
+      await download(`${api}get/${i}`, `${i}.json`)
+      await download(`${cdn}img/${i}.png`, `${i}.png`)
+      await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
     }
     console.log('[MDL] Download Completed')
   }
+}
+
+function download (from, to) {
+  return new Promise((resolve) => {
+    fs.exists(`./memes/${to}`, async (exists) => {
+      if (exists) {
+        console.log(`[Files] ${to} already exists, skipping`)
+      } else {
+        request(`${from}`).pipe(fs.createWriteStream(`./memes/${to}`)).on('finish', resolve())
+        console.log(`[Files] ${from} downloaded to ${to}`)
+      }
+    })
+  })
 }
 
 function updateCount () {
   request(`${api}stats`, {
     json: true
   }, (error, response, body) => {
+    if (error) console.error(error)
     count = body.meme_count
     console.log(`[Update] Count set to ${count}`)
-  })
-}
-
-function download (from, to) {
-  fs.exists(`./memes/${to}`, async (exists) => {
-    if (exists) {
-      console.log(`[Files] ${to} already exists, skipping`)
-    } else {
-      await new Promise((resolve) => {
-        request(`${from}`).pipe(fs.createWriteStream(`./memes/${to}`)).on('finish', resolve())
-      })
-      console.log(`[Files] ${from} downloaded to ${to}`)
-    }
   })
 }
