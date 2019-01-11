@@ -29,9 +29,9 @@ rl.on('SIGINT', () => {
 console.log('MemeDownLoad 1.0\n------------------------\nBy ItsErikSquared and Powered by MemeLoad')
 console.log('\n\nTo kill, just press CTRL+C and type `y(es)`.')
 
-fs.exists('./memes', (exists) => {
+fs.exists('./memes', async (exists) => {
   if (!exists) {
-    fs.mkdir('./memes')
+    await new Promise((resolve) => fs.mkdir('./memes', resolve))
     console.log('[Files] Folder `./memes` created.')
   }
 })
@@ -50,7 +50,7 @@ async function massDownload () {
       await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
       avgtimehold += Date.now() - start
       downloaded++
-      console.log(`[Time] Est. time to complete: ${((avgtimehold * 1000) / downloaded) * (count - i) / 1200} hours (${((i / count) * 100).toFixed(3)}%)`)
+      console.log(`[Time] Est. time to complete: ${((avgtimehold / downloaded) * (count - i)) / 3600000} hours (${((i / count) * 100).toFixed(3)}%)`)
       lastdl = i
     }
     console.log('[MDL] Download completed')
