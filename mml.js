@@ -37,7 +37,7 @@ app.get('/img/:id.png', (req, res) => {
       res.end(fs.readFileSync(`./memes/${req.params.id}.png`), 'binary')
     } else {
       res.json({
-        'powered_by': 'Memeload',
+        'powered_by': 'MemeMirrorLoad',
         'error': 'Path not found.'
       })
     }
@@ -51,7 +51,7 @@ app.get('/img-full/:id.png', (req, res) => {
       res.end(fs.readFileSync(`./memes/${req.params.id}.full.png`), 'binary')
     } else {
       res.json({
-        'powered_by': 'Memeload',
+        'powered_by': 'MemeMirrorLoad',
         'error': 'Path not found.'
       })
     }
