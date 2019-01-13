@@ -105,11 +105,18 @@ app.get('/v1/stats', (req, res) => {
   })
 })
 
-var httpServer = http.createServer(app)
 var httpsServer = https.createServer({
   key: privateKey,
   cert: certificate
 }, app)
 
-httpServer.listen(80)
 httpsServer.listen(443)
+
+var httpServer = http.createServer((req, res) => {
+  res.writeHead(302, {
+    'Location': `https://${req.headers.host + req.url}`
+  })
+  res.end()
+})
+
+httpServer.listen(80)
