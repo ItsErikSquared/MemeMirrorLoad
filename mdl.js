@@ -42,9 +42,9 @@ async function massDownload () {
     running = true
     console.log('[MDL] Download started')
     for (var i = lastdl; i < count; i++) {
-      await download(`${api}get/${i}`, `${i}.json`)
-      await download(`${cdn}img/${i}.png`, `${i}.png`)
-      await download(`${cdn}img-full/${i}.png`, `${i}.full.png`)
+//       await download(`${api}get/${i}`, `${i}.json`) (Disabled Because 500 Error)
+      await download(`${cdn}image?id=${i}`, `${i}.png`)
+//       await download(`${cdn}img-full/${i}.png`, `${i}.full.png`) (No Longer A Item)
       console.log(`[%] ${i} of ${count} downloaded (${((i / count) * 100).toFixed(3)}%)`)
       lastdl = i
     }
