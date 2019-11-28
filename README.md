@@ -1,3 +1,7 @@
+>**NOTICE**
+>
+>This was a joke project of mine. This probably doesn't work anymore because MemeLoad doesn't exist at the time of me writing this and I >forgot to commit the update that allows for downloading many at once. I am just keeping this here by the request of my creator of >MemeLoad and my good pal [BrightSkyz](https://github.com/BrightSkyz). Use at your own risk.
+
 # MemeMirrorLoad
 A complete mirror of https://memeload.us running on https://memeload.itserikmc.com
 
